@@ -181,7 +181,6 @@
 // };
 
 // export default Dashboard;
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '../components/ui/card';
 import {
@@ -190,12 +189,104 @@ import {
 } from 'recharts';
 import Papa from 'papaparse';
 
+// Tableau des leaders avec mise en forme améliorée
+const LeadersTable = ({ data }) => {
+  if (!data || data.length === 0) return null;
+
+  const topCountries = data.slice(0, 10);
+
+  return (
+    <Card className="mb-6">
+      <CardContent className="p-4">
+        <h3 className="font-bold text-xl mb-4">Top 10 des Pays</h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="px-4 py-2 text-left">Rang</th>
+                <th className="px-4 py-2 text-left">Pays</th>
+                <th className="px-4 py-2 text-left">Score Global</th>
+                <th className="px-4 py-2 text-left">Acteurs non étatiques</th>
+                <th className="px-4 py-2 text-left">Droits humains</th>
+                <th className="px-4 py-2 text-left">Gouvernance</th>
+                <th className="px-4 py-2 text-left">Capacités</th>
+              </tr>
+            </thead>
+            <tbody>
+              {topCountries.map((country, index) => (
+                <tr 
+                  key={country.rank}
+                  className={`
+                    ${index === 0 ? 'bg-yellow-50 font-semibold' : index % 2 === 0 ? 'bg-gray-50' : ''}
+                    hover:bg-gray-100 transition-colors
+                  `}
+                >
+                  <td className="px-4 py-2">{country.rank}</td>
+                  <td className="px-4 py-2">{country.country}</td>
+                  <td className="px-4 py-2">{country.indexScore.toFixed(1)}</td>
+                  <td className="px-4 py-2">{country.scores.nonState.toFixed(1)}</td>
+                  <td className="px-4 py-2">{country.scores.humanRights.toFixed(1)}</td>
+                  <td className="px-4 py-2">{country.scores.governance.toFixed(1)}</td>
+                  <td className="px-4 py-2">{country.scores.capacities.toFixed(1)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+const LeadershipBoard = ({ leaders }) => {
+  if (!leaders || !leaders.overall) return null;
+  
+  const categoryMap = {
+    "Acteurs non étatiques": "nonState",
+    "Droits humains & IA": "humanRights",
+    "Gouvernance IA": "governance",
+    "Capacités IA": "capacities"
+  };
+  
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100">
+        <CardContent className="p-4">
+          <h3 className="font-bold text-lg mb-2">Leader Global</h3>
+          <div className="text-sm space-y-1">
+            <p className="font-medium">{leaders.overall.country || 'N/A'}</p>
+            <p>Score Global: {(leaders.overall.indexScore || 0).toFixed(1)}</p>
+            <p>Rang: #{leaders.overall.rank || 'N/A'}</p>
+          </div>
+        </CardContent>
+      </Card>
+      {Object.entries(categoryMap).map(([categoryName, categoryKey]) => {
+        const leader = leaders[categoryKey];
+        if (!leader) return null;
+        return (
+          <Card key={categoryKey}>
+            <CardContent className="p-4">
+              <h3 className="font-bold text-lg mb-2">Leader en {categoryName}</h3>
+              <div className="text-sm space-y-1">
+                <p className="font-medium">{leader.country || 'N/A'}</p>
+                <p>Score: {(leader.scores?.[categoryKey] || 0).toFixed(1)}</p>
+                <p>Rang Global: #{leader.rank || 'N/A'}</p>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })}
+    </div>
+  );
+};
+
 const Dashboard = () => {
   const [rankingsData, setRankingsData] = useState([]);
+  const [leaderAnalysis, setLeaderAnalysis] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRegion, setSelectedRegion] = useState('Tous');
-  const [viewType, setViewType] = useState('bar'); // 'bar' ou 'radar'
+  const [viewType, setViewType] = useState('bar');
 
   useEffect(() => {
     const loadRankingsData = async () => {
@@ -233,6 +324,16 @@ const Dashboard = () => {
               .sort((a, b) => a.rank - b.rank);
 
             setRankingsData(formattedData);
+
+            const leaders = formattedData.length > 0 ? {
+              overall: formattedData[0],
+              nonState: formattedData.reduce((a, b) => (a.scores?.nonState || 0) > (b.scores?.nonState || 0) ? a : b),
+              humanRights: formattedData.reduce((a, b) => (a.scores?.humanRights || 0) > (b.scores?.humanRights || 0) ? a : b),
+              governance: formattedData.reduce((a, b) => (a.scores?.governance || 0) > (b.scores?.governance || 0) ? a : b),
+              capacities: formattedData.reduce((a, b) => (a.scores?.capacities || 0) > (b.scores?.capacities || 0) ? a : b),
+            } : null;
+
+            setLeaderAnalysis(leaders);
             setIsLoading(false);
           }
         });
@@ -249,8 +350,6 @@ const Dashboard = () => {
   const filteredData = rankingsData
     .filter(item => selectedRegion === 'Tous' || item.region === selectedRegion);
 
-  const regions = ['Tous', ...new Set(rankingsData.map(item => item.region))];
-
   const prepareRadarData = (data) => {
     return data.map(item => ({
       country: item.country,
@@ -259,6 +358,10 @@ const Dashboard = () => {
       "Gouvernance IA": item.scores.governance,
       "Capacités IA": item.scores.capacities
     }));
+  };
+
+  const getBarFill = (country) => {
+    return country === leaderAnalysis?.overall.country ? '#FFD700' : '#82ca9d';
   };
 
   if (error) {
@@ -281,13 +384,17 @@ const Dashboard = () => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Global Index on Responsible AI</h1>
       
+      <LeadershipBoard leaders={leaderAnalysis} />
+      
+      <LeadersTable data={rankingsData} />
+      
       <div className="mb-6 flex items-center gap-4">
         <select 
           className="border rounded p-2"
           value={selectedRegion}
           onChange={(e) => setSelectedRegion(e.target.value)}
         >
-          {regions.map(region => (
+          {['Tous', ...new Set(rankingsData.map(item => item.region))].map(region => (
             <option key={region} value={region}>{region}</option>
           ))}
         </select>
@@ -308,7 +415,7 @@ const Dashboard = () => {
 
       <Card>
         <CardContent className="pt-6">
-          <div className="h-96">
+          <div className="h-[32rem]"> {/* Hauteur augmentée pour une meilleure visualisation */}
             <ResponsiveContainer width="100%" height="100%">
               {viewType === 'bar' ? (
                 <BarChart 
@@ -350,26 +457,26 @@ const Dashboard = () => {
                   <Bar 
                     dataKey="scores.nonState" 
                     name="Acteurs non étatiques" 
-                    fill="#ffc658" 
+                    fill="#8884d8"
                   />
                   <Bar 
                     dataKey="scores.humanRights" 
                     name="Droits humains & IA" 
-                    fill="#ff7300" 
+                    fill="#ff7300"
                   />
                   <Bar 
                     dataKey="scores.governance" 
                     name="Gouvernance IA" 
-                    fill="#8884d8" 
+                    fill="#82ca9d"
                   />
                   <Bar 
                     dataKey="scores.capacities" 
                     name="Capacités IA" 
-                    fill="#82ca9d" 
+                    fill="#ffc658"
                   />
                 </BarChart>
               ) : (
-                <RadarChart outerRadius={150} width={800} height={400} data={prepareRadarData(filteredData)}>
+                <RadarChart outerRadius={180} width={800} height={500} data={prepareRadarData(filteredData)}>
                   <PolarGrid />
                   <PolarAngleAxis dataKey="country" />
                   <PolarRadiusAxis angle={30} domain={[0, 100]} />

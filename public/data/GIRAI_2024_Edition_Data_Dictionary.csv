@@ -1,0 +1,181 @@
+,,,,,
+"All columns name starting with ""fr_"" refer to the Government frameworks pillar",,,,,
+"All columns name starting with ""ga_"" refer to the Government actions pillar",,,,,
+"All columns name starting with ""nsa_"" refer to the Non-state actors pillar",,,,,
+"All columns name starting with ""nsa_au"" refer to the Non-state actors from Academia",,,,,
+"All columns name starting with ""nsa_cs"" refer to the Non-state actors from Civil Society",,,,,
+"All columns name starting with ""nsa_ps"" refer to the Non-state actors from the Private Sector",,,,,
+,,,,,
+DATA TAB,,,,RANKINGS AND SCORES TAB,
+Column,Definition,Values,,Column,Definition
+country,name of the country or territory. (*),,,Ranking,position of a country in the overall ranking based on the Global Index score
+ISO3,"three-letter code representing a country, dependent territory, or special area of geographical interest according to ISO 3166-1 alpha-3 standard",,,ISO3,three-letter country code according to the ISO 3166-1 alpha-3 standard
+GIRAI_region,region to which the country belongs according to the GIRAI classification,"Africa, Asia and Oceania, Caribbean, Europe, South and Central America, Middle East, North America",,Country,name of the country or territory. (*)
+GIRAI_subregion,subregion to which the country belongs according to the GIRAI classification.,"Africa: Central Africa, East Africa, North Africa, South Africa, West Africa
+Asia and Oceania: East Asia, North West Asia, Oceania (Pacific), South East Asia, South West Asia
+Caribbean: no subregions
+Europe: Balkans (South East Europe), Central Europe, Eastern Europe, North Europe, Western Europe
+South and Central America: Central America, South America
+Middle East: no subregions
+North America: no subregions",,GIRAI_region,region to which the country belongs according to the GIRAI  classification.
+UN_region,continental regions according to the UN M49 standard,"Africa, Americas, Asia, Europe, Oceania",,UN_region,continental regions according to the UN M49 standard
+UN_sub_region,geographical subregions according to the UN M49 standard,"Australia and New Zealand, Central Asia, Eastern Asia, Eastern Europe, Latin America and the Caribbean, Melanesia, Micronesia, Northern Africa, Northern America, Northern Europe, Polynesia, South-eastern Asia, Southern Asia, Southern Europe, Sub-Saharan Africa, Western Asia, Western Europe",,UN_sub_region,geographical subregions according to the the UN M49 standard
+dimension,name of the dimension,"Responsible AI Governance,
+Human Rights and AI,
+Responsible AI Capacities",,Index score,total index score of the country
+thematic_area,name of the thematic area measured,"Access to Remedy and Redress,
+Bias and Unfair Discrimination,
+Children's Rights,
+Competitions Authorities,
+Cultural and Linguistic Diversity,
+Data Protection and Privacy,
+Gender Equality,
+Human Oversight and Determination,
+Impact Assessments,
+International Cooperation,
+Labour Protection and Right to Work,
+National AI Policy,
+Proportionality and Do No Harm,
+Public Participation and Awareness,
+Public Procurement,
+Public Sector Skills Development,
+Responsibility and Accountability,
+Safety, Accuracy and Reliability,
+Transparency and Explainability.",,Pillar scores,"overall score of Government frameworks, Government actions and Non-state actors pillars for a country"
+enforceability_benchmark,standard used to assess the strength of Government frameworks accross the different Thematic Areas,"legally-enforceable
+binding",,Dimension scores,"overall score of Human Rights and AI, Responsible AI Governanca and Responsible AI Capacities dimensions for a country"
+fr_coefficient,country-specific secondary data coefficient for Government frameworks,ranges from 0 to 1,,Coefficients,"country-specific secondary data coefficients accounting for the effectiveness of Government frameworks, Government actions and the enabling environment for Non-state actors in each country"
+ga_coefficient,country-specific secondary data coefficient for Government actions,ranges from 0 to 1,,,
+nsa_coefficient,country-specific secondary data coefficient for Non-state actors,ranges from 0 to 1,,,
+ta_score,fr_weighted_score + ga_weighted_score + nsa_weighted_score,ranges from 0 to 100,,,
+fr_weighted_score,fr_adjust_score * 40%,ranges from 0 to 40,,,
+ga_weighted_score,ga_adjust_score * 40%,ranges from 0 to 40,,,
+nsa_weighted_score,nsa_adjust_score * 20%,ranges from 0 to 20,,,
+fr_adjust_score,fr_norm_score * country specific coefficient for Government frameworks pillar,ranges from 0 to 100,,,
+ga_adjust_score,ga_norm_score * country specific coefficient for Government actions pillar,ranges from 0 to 100,,,
+nsa_adjust_score,nsa_norm_score * country specific coefficient for Non-state actors pillar,ranges from 0 to 100,,,
+fr_norm_score,"points assigned to Government frameworks indicator according to GIRAI scoring rules, normalised into a 0-100 range",ranges from 0 to 100,,,
+ga_norm_score,"points assigned to Government actions indicator according to GIRAI scoring rules, normalised into a 0-100 range",ranges from 0 to 100,,,
+nsa_norm_score,"points assigned to Non-state actors indicator according to GIRAI scoring rules, normalised into a 0-100 range",ranges from 0 to 100,,,
+fr_raw_score,points assigned to Government frameworks indicator according to GIRAI scoring rules,"0  No framework addressin the thematic area
+1  Non-binding frameworks
+2  Binding frameworks
+3  Legally-enforceable frameworks",,,
+ga_raw_score,points assigned to Government actions indicator according to GIRAI scoring rules,"0       No evidence of government actions was found in relation to the thematic area 
+
+0.9    -The country either already has a framework in place, but the action identified involves 
+          developing a new framework; or 
+          - No framework was identified, but there is evidence of other government  actions 
+          unrelated to framework development
+ 
+1       -The country has an adopted framework in place for the thematic area, and the 
+         government action reflects the implementation of this existing framework, or
+         -The country does not have an adopted framework in place for the thematic area, but the 
+         government action is related to developing a new framework",,,
+nsa_raw_score,points assigned to Non-state actors indicator according to GIRAI scoring rules,"0  No evidence of non-state actors working towards the thematic area
+1  Evidence of non-state actors from one sector working towards the thematic area
+2  Evidence of non-state actors from two sectors working towards the thematic area
+3  Evidence of non-state actors from all the three sectors working towards the thematic area",,,
+fr_doc1_existence (_num and _text),"Are there in the country national/federal laws, regulations, policies, strategies, plans and/or guidelines that specifically speak to Artificial Intelligence and the thematic area?","0  No, there aren't
+1  Yes, there are",,,
+fr_doc1_title_english,What is the title of the document in English?,Title of the document translated to English,,,
+fr_doc1_url,What is the URL or web address where the document can be found?,link to the document,,,
+fr_doc1_type (_num and _text),What is the type of the document?,"1  Legally-enforceable frameworks
+2  Binding frameworks
+3  Non-binding frameworks
+",,,
+ga_existence (_num and _text),Is there evidence of actions of the national/federal government to address Artificial Intelligence and the thematic area?,"0  No, there is no evidence of government actions to address the thematic area
+1  Yes, there is evidence of government actions to address the thematic area",,,
+ga_title,What is the title of the action in English?,title of the action in English,,,
+ga_url,What is the URL or web address where the evidence of the action can be found?,link to the webpage of the government action,,,
+ga_type (_num and _text),What is the type of the action?,"1	Draft frameworks
+2	Operational and annual performance plans
+3	Plans and programmes
+4	Projects
+5	Grants and subsidies
+6	Budget allocation
+7	Requests for proposals
+8	Research and reports
+9	Training and courses
+10	Establishing partnerships and collaborations
+11	Establishing commissions and expert working groups
+12	Parliament discussions
+13	Assigning the development of AI policy to a specific government body
+14	Establishment of government bodies
+15	Hearings
+16	Conferences and workshops
+17	Public awareness events and campaigns
+18	Public consultations
+19	State-based non-judicial mechanisms
+99	Other",,,
+ga_draft_type,What is the type of the draft?,refer to  fr_doc1_type,,,
+nsa_existence,Count of the number of initiatives carried-on by non-state actors (nsa) towards the Thematic Area,"0   No initiatives from NSA towards the thematic area
+1   Initiatives from actors from 1 sectors
+2   Initiatives from actors from 2 sectors
+3   Initiatives from actors from 3 sectors",,,
+nsa_au_existence (_num and _text),Are there any actors from academia or university working towards the thematic area in the country?,"0   No, there aren't
+1   Yes, there are",,,
+nsa_au_name_english,What is the name of the actor in English?,name in English of the academic actor,,,
+nsa_au_url,Please provide the website of the actor.,link to the webpage of the actor from academia / university,,,
+nsa_au_type (_num and _text),What is the type of this private sector actor?,"1    Public University
+2    Private University
+3    Research Council
+4    Research Institute
+99  Other",,,
+nsa_au_action_title,What is the name of the initiative in English?,title of the action in English,,,
+nsa_au_action_url,What is the URL or web address where evidence about this initiative can be found?,link to the evidence of the initiative carried out by this actor from academia/university towards the thematic area,,,
+nsa_au_action_type (_num and _text),What is the type of this initiative?,"1	Research and analysis
+2	Advocacy and public awareness campaigns
+3	Developing ethical guidelines, standards, and best practices
+4	Establishing partnerships and collaborations
+5	Legal assistance and action
+6	Non-state mechanisms
+7	Training and courses
+8	Conferences and workshops
+99	Other
+",,,
+nsa_cs_existence (_num and _text),Are there any actors from the civil society working towards the thematic area in the country?,"0  No, there aren't
+1  Yes, there are",,,
+nsa_cs_name_english,What is the name of the actor in English?,name in English of the actor from civil society,,,
+nsa_cs_url,Please provide the website of the actor.,link to the webpage of the actor from civil society,,,
+nsa_cs_type (_num and _text),What is the type of this private sector actor?,"1	Professional association
+2	Sectoral organisation
+3	Independent research institute
+4	Community-based organisation
+5	Faith-based organisation
+6	Social movement
+7	Labour union
+99	Other",,,
+nsa_cs_action_title,What is the name of the initiative in English?,title of the action in English,,,
+nsa_cs_action_url,What is the URL or web address where evidence about this initiative can be found?,link to the evidence of the initiative carried out by this actor from civil society towards the thematic area,,,
+nsa_cs_action_type (_num and _text),What is the type of this initiative?,"1	Research and analysis
+2	Advocacy and public awareness campaigns
+3	Developing ethical guidelines, standards, and best practices
+4	Establishing partnerships and collaborations
+5	Legal assistance and action
+6	Non-state mechanisms
+7	Training and courses
+8	Conferences and workshops
+99	Other",,,
+nsa_ps_existence (_num and _text),Are there any actors from the private sector working towards the thematic area in the country?,"0  No, there aren't
+1  Yes, there are",,,
+nsa_ps_name_english,What is the name of the actor in English?,name in English of the actor from private sector,,,
+nsa_ps_url,Please provide the website of the actor.,link to the webpage of the actor from the private sector,,,
+nsa_ps_type (_num and _text),What is the type of this private sector actor?,"1   State owned enterprise
+2   Company
+99 Other",,,
+nsa_ps_action_title,What is the name of the initiative in English?,title of the action in English,,,
+nsa_ps_action_url,What is the URL or web address where evidence about this initiative can be found?,link to the evidence of the initiative carried out by this actor from the private sector towards the thematic area,,,
+nsa_ps_action_type (_num and _text),What is the type of this initiative?,"1	Research and analysis
+2	Advocacy and public awareness campaigns
+3	Developing ethical guidelines, standards, and best practices
+4	Establishing partnerships and collaborations
+5	Legal assistance and action
+6	Non-state mechanisms
+7	Training and courses
+8	Conferences and workshops
+99	Other",,,
+year,index year,2023,,,
+,,,,,
+"(*) Data was collected for Chinese Taipei (commonly referred to as Taiwan) and the West Bank, which is under the administration of the Palestinian Authority. No data collection took place in Gaza. We recognize that these are, at the time of writing, disputed jurisdictions.",,,,,
+"Note: In the Thematic Area ""International Cooperation"" for Chad, the country was initially awarded 1 point under the Government actions pillar because it did not have a framework in place, and the identified government action was classified as ""Draft frameworks."" However, after the index scores were published, we identified an error in this classification. The correct classification should have been ""Establishing partnerships and collaborations,"" which would correspond to a score of 0.9 points for the Government actions pillar. Although the action type was corrected post-publication, no adjustments were made to the published scores.",,,,,
